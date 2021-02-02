@@ -1,9 +1,3 @@
-### Technical assignment
-
-The purpose of this assignment is to get to know how you solve logical problems, how you build the interface and how it is designed (code structure and GUI design). This assignment should be built in React and you are free to use any library, it should also be responsive for mobile, tablets and PCs.
-
-Attached is a js file with four menus in a JSON object. These menus contains categories and products with name and price.
-
 ### Your task is the following:
 
 1. Create a GUI that displays these menus with the possibility to see the details such as which categories and products it has.
