@@ -1,0 +1,10 @@
+.Menu-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.Menu-item {
+  width: 200px;
+}

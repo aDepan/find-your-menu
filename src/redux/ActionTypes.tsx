@@ -1,0 +1,3 @@
+export const NAME_FILTER = 'NAME_FILTER';
+export const SHOPID_FILTER = 'SHOPID_FILTER';
+export const ACTIVE_TODAY_FILTER = 'ACTIVE_TODAY_FILTER';
