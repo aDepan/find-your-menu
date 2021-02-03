@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import MultiSelect from 'react-multi-select-component';
 import { useDispatch } from 'react-redux';
 
-import { menusArrType, multiselectType } from '../../types';
+import { MenusArrType, MultiselectType } from '../../types';
+
+import {selectShopIDFilter} from '../../redux/ActionCreators';
 
 import './Filters.css';
 
-const buildMultiselectOptionsList = (rawData: menusArrType[]) => {
+const buildMultiselectOptionsList = (rawData: MenusArrType[]) => {
   const shopIDsArray: Array<string> =  rawData.reduce((acc: string[], currval) => {
     return [...acc, ...currval.shopIds];
   }, []);
@@ -14,7 +16,7 @@ const buildMultiselectOptionsList = (rawData: menusArrType[]) => {
 
   const shopIDsUniqueList:string[] = [...new Set(shopIDsArray)];
 
-  const multiselectArrayOfObj: multiselectType[] = [];
+  const multiselectArrayOfObj: MultiselectType[] = [];
   shopIDsUniqueList.forEach(el  =>
     multiselectArrayOfObj.push({
       label: el,
@@ -25,11 +27,11 @@ const buildMultiselectOptionsList = (rawData: menusArrType[]) => {
 };
 
 type ShopIDFilterProps = {
-  menus: menusArrType[];
+  menus: MenusArrType[];
 };
 
 const ShopIDFilter: React.FC<ShopIDFilterProps> = ({menus}) => {
-  const [selected, setSelected] = useState<multiselectType[]>([]);
+  const [selected, setSelected] = useState<MultiselectType[]>([]);
   const dispatch = useDispatch();
 
   const multiselectArrayOfObj = buildMultiselectOptionsList(menus);
@@ -38,7 +40,7 @@ const ShopIDFilter: React.FC<ShopIDFilterProps> = ({menus}) => {
     const selectedArray = selected.map(el => {
       return el.label;
     });
-    dispatch({ type: 'SHOPID_FILTER', shopIDs: selectedArray });
+    dispatch(selectShopIDFilter(selectedArray)  );
   }, [selected, dispatch]);
 
   return (

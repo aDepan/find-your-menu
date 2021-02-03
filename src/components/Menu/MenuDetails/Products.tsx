@@ -1,8 +1,10 @@
 import React from 'react';
 import './Products.css';
 
+import {ProductsType} from '../../../types';
+
 type ProductsProps = {
-  products: Array<{name: string, price: number }>
+  products: ProductsType[]
 }
 
 const Products:React.FC<ProductsProps> = ({ products }) => {

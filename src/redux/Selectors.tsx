@@ -1,7 +1,7 @@
-import {stateType} from '../types';
+import {StateType} from './reduxActionTypes';
 
-export const getNameFilter = (state: stateType) => state.nameFilter;
+export const getNameFilter = (state: StateType) => state.nameFilter;
 
-export const getShopIDFilter = (state: stateType) => state.shopIDs;
+export const getShopIDFilter = (state: StateType) => state.shopIDs;
 
-export const getActiveToday = (state: stateType) => state.activeToday;
+export const getActiveToday = (state: StateType) => state.activeToday;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import './Filters.css';
+import {checkActiveTodayFilter} from '../../redux/ActionCreators';
 
 const ActiveTodayFilter: React.FC = () => {
   const [active, setActive] = useState(false);
@@ -13,10 +14,7 @@ const ActiveTodayFilter: React.FC = () => {
     const weekday = dateObj.toLocaleString('default', { weekday: 'long' });
 
     setActive(event.target.checked);
-    dispatch({
-      type: 'ACTIVE_TODAY_FILTER',
-      activeToday: event.target.checked ? weekday : '',
-    });
+    dispatch(checkActiveTodayFilter(event.target.checked ? weekday : ''));
   };
 
   return (

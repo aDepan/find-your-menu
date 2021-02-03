@@ -1,4 +1,5 @@
-import {stateType, filterActionsType} from '../types';
+import {StateType, FilterActionsType} from './reduxActionTypes';
+import * as ActionTypes from './ActionTypes';
 
 const initialState = {
   nameFilter: '',
@@ -7,21 +8,21 @@ const initialState = {
 };
 
 
-export const Filters = (state: stateType = initialState, action: filterActionsType) => {
+export const Filters = (state: StateType = initialState, action: FilterActionsType) => {
   switch (action.type) {
-    case 'NAME_FILTER': {
+    case ActionTypes.NAME_FILTER: {
       return {
         ...state,
         nameFilter: action.nameFilter,
       };
     }
-    case 'SHOPID_FILTER': {
+    case ActionTypes.SHOPID_FILTER: {
       return {
         ...state,
         shopIDs: action.shopIDs,
       };
     }
-    case 'ACTIVE_TODAY_FILTER': {
+    case ActionTypes.ACTIVE_TODAY_FILTER: {
       return {
         ...state,
         activeToday: action.activeToday,

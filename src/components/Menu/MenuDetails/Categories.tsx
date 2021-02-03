@@ -1,11 +1,11 @@
 import React from 'react';
 import Products from './Products';
 
+import {CategoriesType} from '../../../types';
+
 type CategoriesProps = {
-  categories: Array<{
-    name: string,
-    products: Array<{name: string, price: number }>
-  }>}
+  categories: CategoriesType[];
+}
 
 const Categories: React.FC<CategoriesProps> = ({ categories }) => {
   const categoriesList = categories.map(cat => {

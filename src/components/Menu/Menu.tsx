@@ -2,45 +2,44 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import Categories from './MenuDetails/Categories';
-import { compareArrays } from '../../utils/util';
+
 import {
   getNameFilter,
   getShopIDFilter,
   getActiveToday,
 } from '../../redux/Selectors';
-import {menusArrType} from '../../types';
+import {MenusArrType} from '../../types';
 
 import './Menu.css';
 
 type MenuProps = {
-  menus: menusArrType[];
+  menus: MenusArrType[];
 };
 
 const Menu: React.FC<MenuProps> = ({ menus }) => {
-  const nameFilter = useSelector(getNameFilter);
-  const shopIDsSeleted = useSelector(getShopIDFilter);
-  const activeToday = useSelector(getActiveToday);
+  const nameFilter:string = useSelector(getNameFilter);
+  const shopIDsSeleted: string[] = useSelector(getShopIDFilter);
+  const activeToday:string = useSelector(getActiveToday);
+
+  let updatedMenus = [...menus];
 
   if (nameFilter.length > 0) {
-    menus = menus.filter(menu => {
+    updatedMenus = updatedMenus.filter(menu => {
       return menu.name.toLowerCase().includes(nameFilter.toLowerCase());
     });
   }
 
   if (shopIDsSeleted.length > 0) {
-    const menuNamesFiltered = compareArrays(menus, shopIDsSeleted);
-    menus = menus.filter(menu => {
-      return menuNamesFiltered.includes(menu.name);
-    });
-  }
+    updatedMenus = updatedMenus.filter(({ shopIds }) => shopIDsSeleted.every((id) => shopIds.includes(id)));
+      };
 
   if (activeToday) {
-    menus = menus.filter(menu => {
+    updatedMenus = updatedMenus.filter(menu => {
       return menu.activeDays.includes(activeToday.toUpperCase());
     });
   }
 
-  const menusList = menus.map(menu => {
+  const menusList = updatedMenus.map(menu => {
     return (
       <div key={menu.name} className='Menu-item'>
         <h2>{menu.name}</h2>
