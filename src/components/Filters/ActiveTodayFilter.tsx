@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useContext } from 'react';
 
-import './Filters.css';
-import {checkActiveTodayFilter} from '../../redux/ActionCreators';
+import styled from 'styled-components';
+
+import { FilterContext } from '../../context/menuContext';
+
+import { checkActiveTodayFilter } from '../../redux/ActionCreators';
+
+const StyledInputCheckbox = styled.input`
+  margin-right: 8px;
+`;
 
 const ActiveTodayFilter: React.FC = () => {
   const [active, setActive] = useState(false);
 
-  const dispatch = useDispatch();
+  const [state, dispatch] = useContext(FilterContext);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const dateObj = new Date();
@@ -18,9 +24,9 @@ const ActiveTodayFilter: React.FC = () => {
   };
 
   return (
-    <div className='Filters-item'>
+    <div>
       <label>
-        <input
+        <StyledInputCheckbox
           name='activeMenus'
           type='checkbox'
           checked={active}
@@ -32,4 +38,4 @@ const ActiveTodayFilter: React.FC = () => {
   );
 };
 
-export default ActiveTodayFilter;
+export default React.memo(ActiveTodayFilter);

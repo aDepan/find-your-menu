@@ -1,10 +1,11 @@
-
+import {MenusArrType} from '../types';
 import * as ActionTypes from './ActionTypes';
 
 export type StateType = {
     nameFilter: string;
     shopIDs: string[];
     activeToday: string;
+    menusList: MenusArrType[];
   };
   
   interface NamefilterAction {

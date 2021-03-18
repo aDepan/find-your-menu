@@ -1,29 +1,35 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 
-import { getNameFilter } from '../../redux/Selectors';
-import {applyNameFilter} from '../../redux/ActionCreators';
+import { FilterContext } from '../../context/menuContext';
+import { applyNameFilter } from '../../redux/ActionCreators';
 
-import './Filters.css';
+import styled from 'styled-components';
+
+const StyledInputText = styled.input`
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+`;
 
 const NameFilter: React.FC = () => {
-  const nameInput = useSelector(getNameFilter);
-  const dispatch = useDispatch();
+  const [state, dispatch] = useContext(FilterContext);
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => { 
+  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(applyNameFilter(event.target.value));
   };
-
+  console.log('nameFilter');
   return (
-    <div className='Filters-item'>
-      <input
+    <div>
+      <StyledInputText
         type='text'
         placeholder='Search by name'
         onChange={inputChangeHandler}
-        value={nameInput}
+        value={state.nameFilter}
       />
     </div>
   );
 };
 
-export default NameFilter;
+export default React.memo(NameFilter);

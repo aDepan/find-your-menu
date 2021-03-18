@@ -5,6 +5,7 @@ const initialState = {
   nameFilter: '',
   shopIDs: [],
   activeToday: '',
+  menusList: []
 };
 
 

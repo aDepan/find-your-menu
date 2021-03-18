@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import MultiSelect from 'react-multi-select-component';
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
+
+import { FilterContext } from '../../context/menuContext';
 
 import { MenusArrType, MultiselectType } from '../../types';
 
-import {selectShopIDFilter} from '../../redux/ActionCreators';
-
-import './Filters.css';
+import { selectShopIDFilter } from '../../redux/ActionCreators';
 
 const buildMultiselectOptionsList = (rawData: MenusArrType[]) => {
-  const shopIDsArray: Array<string> =  rawData.reduce((acc: string[], currval) => {
-    return [...acc, ...currval.shopIds];
-  }, []);
+  const shopIDsArray: Array<string> = rawData.reduce(
+    (acc: string[], currval) => {
+      return [...acc, ...currval.shopIds];
+    },
+    []
+  );
 
-
-  const shopIDsUniqueList:string[] = [...new Set(shopIDsArray)];
+  const shopIDsUniqueList: string[] = [...new Set(shopIDsArray)];
 
   const multiselectArrayOfObj: MultiselectType[] = [];
-  shopIDsUniqueList.forEach(el  =>
+  shopIDsUniqueList.forEach(el =>
     multiselectArrayOfObj.push({
       label: el,
       value: el,
@@ -26,25 +28,25 @@ const buildMultiselectOptionsList = (rawData: MenusArrType[]) => {
   return multiselectArrayOfObj;
 };
 
-type ShopIDFilterProps = {
-  menus: MenusArrType[];
-};
-
-const ShopIDFilter: React.FC<ShopIDFilterProps> = ({menus}) => {
+const ShopIDFilter: React.FC = () => {
   const [selected, setSelected] = useState<MultiselectType[]>([]);
-  const dispatch = useDispatch();
 
-  const multiselectArrayOfObj = buildMultiselectOptionsList(menus);
+  const [state, dispatch] = useContext(FilterContext);
 
+  const multiselectArrayOfObj = buildMultiselectOptionsList(state.menusList);
   useEffect(() => {
-    const selectedArray = selected.map(el => {
-      return el.label;
-    });
-    dispatch(selectShopIDFilter(selectedArray)  );
-  }, [selected, dispatch]);
+    if (selected.length !== state.shopIDs.length) {
+      const selectedArray = selected.map(el => {
+        return el.label;
+      });
+      dispatch(selectShopIDFilter(selectedArray));
+    }
+  }, [selected, dispatch, state.shopIDs]);
+
+  console.log('ShopIDFilter');
 
   return (
-    <div className='Filters-item'>
+    <div>
       <MultiSelect
         options={multiselectArrayOfObj}
         value={selected}

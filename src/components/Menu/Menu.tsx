@@ -1,54 +1,51 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 
 import Categories from './MenuDetails/Categories';
+import { FilterContext } from '../../context/menuContext';
 
-import {
-  getNameFilter,
-  getShopIDFilter,
-  getActiveToday,
-} from '../../redux/Selectors';
-import {MenusArrType} from '../../types';
+import { filterMenuHandler } from '../../utils/util';
 
-import './Menu.css';
+import styled from 'styled-components';
 
-type MenuProps = {
-  menus: MenusArrType[];
-};
+const StyledMenuList = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: 0 10px;
+`;
 
-const Menu: React.FC<MenuProps> = ({ menus }) => {
-  const nameFilter:string = useSelector(getNameFilter);
-  const shopIDsSeleted: string[] = useSelector(getShopIDFilter);
-  const activeToday:string = useSelector(getActiveToday);
+const StyledMenuItem = styled.div`
+  width: 200px;
 
-  let updatedMenus = [...menus];
-
-  if (nameFilter.length > 0) {
-    updatedMenus = updatedMenus.filter(menu => {
-      return menu.name.toLowerCase().includes(nameFilter.toLowerCase());
-    });
+  & > h2 {
+    background-color: #eceee0;
+    padding: 0px 3px;
+    text-transform: uppercase;
   }
+`;
 
-  if (shopIDsSeleted.length > 0) {
-    updatedMenus = updatedMenus.filter(({ shopIds }) => shopIDsSeleted.every((id) => shopIds.includes(id)));
-      };
+const Menu: React.FC = () => {
+  const [state] = useContext(FilterContext);
 
-  if (activeToday) {
-    updatedMenus = updatedMenus.filter(menu => {
-      return menu.activeDays.includes(activeToday.toUpperCase());
-    });
-  }
+  const updatedMenus = filterMenuHandler(
+    state.menusList,
+    state.nameFilter,
+    state.shopIDs,
+    state.activeToday
+  );
 
   const menusList = updatedMenus.map(menu => {
     return (
-      <div key={menu.name} className='Menu-item'>
+      <StyledMenuItem key={menu.name}>
         <h2>{menu.name}</h2>
         <Categories categories={menu.categories} />
-      </div>
+      </StyledMenuItem>
     );
   });
 
-  return <div className='Menu-list'>{menusList}</div>;
+  console.log('rerender Menu');
+
+  return <StyledMenuList className='Menu-list'>{menusList}</StyledMenuList>;
 };
 
 export default Menu;
